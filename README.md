@@ -13,8 +13,9 @@ There are some optional parts too:
 * Phusion Passenger configuration
 * Cron jobs
 
+
 # Warning / Disclaimer
-This is mostly an internal tool - you'll have to spelunk through the code to get a handle on all the options.
+This is mostly an internal tool - you'll have to spelunk through the code to get a handle on all the options. In due course we'll document everything.
 
 # Prerequisites
 On the machine you're deploying from, you'll need:

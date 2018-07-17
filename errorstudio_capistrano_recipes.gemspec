@@ -6,12 +6,12 @@ require 'version'
 Gem::Specification.new do |spec|
   spec.name          = "errorstudio_capistrano_recipes"
   spec.version       = ErrorstudioCapistranoRecipes::VERSION
-  spec.authors       = ["Ed Jones"]
-  spec.email         = ["ed@errorstudio.co.uk"]
+  spec.authors       = ["Ed Jones", "Paul Hendrick"]
+  spec.email         = ["ed@error.agency", "paul@error.agency"]
 
   spec.summary       = %q{Error's cap recipes}
   spec.description   = %q{Cap recipes we use to deploy our websites.}
-  spec.homepage      = "https://bitbucket.org/errorstudio/errorstudio_capistrano_recipes"
+  spec.homepage      = "https://github.com/errorstudio/errorstudio_capistrano_recipes"
   spec.license       = "MIT"
 
 
