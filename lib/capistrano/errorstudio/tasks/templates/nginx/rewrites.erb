@@ -1,0 +1,7 @@
+<% fetch(:url_rewrites,{}).each do |regex, target| %>
+    server {
+    <%= fetch(:nginx_configuration,{})[:cloudflare_real_ips] %>
+    server_name <%= regex %>;
+    return 301 $scheme://<%= fetch(:deploy_domain) %><%= target %>;
+    }
+<% end %>

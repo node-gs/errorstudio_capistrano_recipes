@@ -1,0 +1,84 @@
+<%= fetch(:nginx_custom_http_context, "") %>
+
+<%= fetch(:nginx_configuration,{})[:proxy_cache_path] %>
+
+<%= fetch(:nginx_configuration, {})[:url_rewrites] %>
+
+<%= fetch(:nginx_configuration, {})[:domain_redirects] %>
+
+<% fetch(:log_formats, {}).each do |name, format| %>
+	log_format <%= name %> '<%= format %>';
+<% end %>
+
+server {
+	<%= fetch(:nginx_configuration,{})[:cloudflare_real_ips] %>
+	server_name <%= fetch(:site_domains).join(" ") %>;
+	#listen   	80;
+
+	location /nginx_status {
+		stub_status on;
+
+		access_log off;
+		allow 127.0.0.1;
+		deny all;
+	}
+
+	<%= fetch(:nginx_custom_server_context, "") %>
+
+	access_log  <%= fetch(:access_log,"/var/log/nginx/#{fetch(:deploy_domain)}.access.log") %>;
+	error_log  <%= fetch(:error_log,"/var/log/nginx/#{fetch(:deploy_domain)}.error.log") %>;
+	<% if fetch(:nginx_custom_root,nil).nil? %>
+	  root   <%= fetch(:deploy_to) %><%= fetch(:http_root,"/current/public") %>;
+	<% else %>
+	  root    <%= fetch(:nginx_custom_root) %>;
+	<% end %>
+
+    <%= fetch(:nginx_configuration, {})[:basic_auth] %>
+
+    <%= fetch(:nginx_configuration,{})[:path_redirects] %>
+
+    <%= fetch(:nginx_configuration, {})[:custom_rules] %>
+
+	<%= fetch(:nginx_configuration, {})[:custom_aliases] %>
+
+
+    # enable gzip compression
+    gzip  on;
+    gzip_http_version 1.1;
+    gzip_vary on;
+    gzip_comp_level 1;
+    gzip_proxied any;
+    gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+    gzip_min_length 1100;
+
+    # make sure gzip does not lose large gzipped js or css files - see http://blog.leetsoft.com/2007/7/25/nginx-gzip-ssl
+    gzip_buffers 16 8k;
+
+    # Disable gzip for older browsers that don't support it
+    gzip_disable “MSIE [1-6].(?!.*SV1)”;
+
+
+    <%= fetch(:nginx_configuration,{})[:ssl_settings] %>
+
+	location = /favicon.ico {
+		log_not_found off;
+		access_log off;
+	}
+
+	# Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+	location ~ /\. {
+		deny all;
+		access_log off;
+		log_not_found off;
+	}
+
+<%= fetch(:nginx_configuration, {})[:location_proxy_cache] %>
+
+<%= fetch(:nginx_configuration, {})[:php] %>
+
+<%= fetch(:nginx_configuration, {})[:upstream] %>
+
+<% if fetch(:requires_static, false) %>
+    index  index.html index.htm;
+<% end %>
+}

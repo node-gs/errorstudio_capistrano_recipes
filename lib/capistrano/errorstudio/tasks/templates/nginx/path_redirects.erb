@@ -1,0 +1,5 @@
+<% fetch(:path_redirects,{}).each do |from, to| %>
+    location ~* <%= from %> {
+      return 301 <%= to %>;
+    }
+<% end %>

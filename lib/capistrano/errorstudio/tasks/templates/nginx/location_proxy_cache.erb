@@ -1,0 +1,6 @@
+proxy_cache <%= fetch(:cache_zone) %>;
+proxy_cache_lock on;
+proxy_cache_valid 200 <%= fetch(:nginx_cache_validity, "10s") %>;
+proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504 http_403 http_404;
+add_header X-Proxy-Cache-Status $upstream_cache_status;
+proxy_cache_bypass $http_cache_control;

@@ -1,0 +1,1 @@
+load File.expand_path("../tasks/prompts.rake", __FILE__)

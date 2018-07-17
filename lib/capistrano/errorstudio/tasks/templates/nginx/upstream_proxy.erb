@@ -1,0 +1,11 @@
+location <%= fetch(:proxy_for_location, "/") %> {
+    if ($args ~* "domain_redirected=(.*)$") {
+        add_header X-domain-redirected $1;
+    }
+    proxy_pass <%= fetch(:upstream_proxy_scheme, "http://") %><%= fetch(:upstream_proxy_host, "127.0.0.1") %>:<%= fetch(:upstream_proxy_port) %>;
+    proxy_read_timeout <%= fetch(:upstream_proxy_read_timeout, "3m") %>;
+    proxy_set_header  X-Real-IP  $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}

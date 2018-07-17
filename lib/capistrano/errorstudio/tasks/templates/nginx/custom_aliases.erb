@@ -1,0 +1,5 @@
+<% fetch(:custom_nginx_aliases, {}).each do |path_alias, path| %>
+    location <%= path_alias %> {
+        alias <%= path %>
+    }
+<% end %>

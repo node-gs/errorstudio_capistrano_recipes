@@ -1,0 +1,8 @@
+<%= fetch(:rails_env)%>:
+  adapter: <%= fetch(:db_adaptor,'mysql2') %>
+  encoding: <%= fetch(:db_encoding,'utf8') %>
+  database: <%= fetch(:db_name) %>
+  pool: <%= fetch(:db_pool,5) %>
+  username: <%= fetch(:db_username) %>
+  password: <%= fetch(:db_password) %>
+  host: <%= fetch(:db_server) %>

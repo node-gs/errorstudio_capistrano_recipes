@@ -1,0 +1,1 @@
+proxy_cache_path /tmp/<%= fetch(:cache_zone) %>_cache levels=1:2 keys_zone=<%= fetch(:cache_zone) %>:10m inactive=600s max_size=1000m;

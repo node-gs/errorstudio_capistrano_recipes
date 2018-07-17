@@ -1,0 +1,27 @@
+    location / {
+        <%= fetch(:nginx_configuration,{})[:cors] %>
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    index  index.php index.html index.htm;
+    location ~ \.php$ {
+        try_files $uri =404;
+        include        fastcgi_params;
+    <% if fetch(:ssl_required,false) %>
+        #this isn't ideal because it'll report HTTPS on when it isn't.
+        #need to check port too.
+        fastcgi_param HTTPS                 on;
+        fastcgi_param SSL_PROTOCOL          $ssl_protocol;
+        fastcgi_param SSL_CIPHER            $ssl_cipher;
+        fastcgi_param SSL_SESSION_ID        $ssl_session_id;
+        fastcgi_param SSL_CLIENT_VERIFY     $ssl_client_verify;
+    <% end %>
+        fastcgi_pass   unix:/var/run/php5-www.sock;
+        fastcgi_index  index.php;
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 4 256k;
+        fastcgi_busy_buffers_size 256k;
+    <% fetch(:php_fastcgi_parameters, []).each do |param| %>
+        <%= param %>
+    <% end %>
+    }

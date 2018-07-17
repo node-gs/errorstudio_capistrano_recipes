@@ -1,0 +1,1 @@
+load File.expand_path("../tasks/ownership.rake", __FILE__)

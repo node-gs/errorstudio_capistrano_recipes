@@ -1,0 +1,8 @@
+auth_basic "<%= fetch(:basic_auth_realm) %>";
+auth_basic_user_file <%= shared_path %>/.htpasswd;
+location ~ favicon.png {
+    auth_basic off;
+}
+location ~ icon-homescreen.png {
+    auth_basic off;
+}

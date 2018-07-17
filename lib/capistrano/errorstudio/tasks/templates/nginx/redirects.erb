@@ -1,0 +1,10 @@
+<% fetch(:domain_redirects,[]).each do |site_alias|%>
+    server {
+        <%= fetch(:nginx_configuration,{})[:cloudflare_real_ips] %>
+        server_name <%= site_alias %>;
+        <% if fetch(:deploy_domain) =~ %r{#{site_alias}}%>
+        <%= fetch(:nginx_configuration,{})[:ssl_settings] %>
+        <% end %>
+        return 301 $scheme://<%= fetch(:deploy_domain) %>$request_uri;
+    }
+<% end %>

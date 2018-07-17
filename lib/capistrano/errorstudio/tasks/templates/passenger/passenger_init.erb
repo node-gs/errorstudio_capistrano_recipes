@@ -1,0 +1,27 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: <%= fetch(:application) %>_<%= fetch(:rails_env) %>_passenger
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Passenger for <%= fetch(:application) %>
+# Description: This file starts and stops Passenger for <%= fetch(:application) %>, <%= fetch(:rails_env) %> environment
+#
+### END INIT INFO
+
+case "$1" in
+start)
+<%= start_passenger_command %>
+;;
+stop)
+<%= stop_passenger_command %>
+;;
+restart)
+<%= restart_passenger_command %>
+;;
+*)
+echo "Usage: <%= fetch(:application) %>_<%= fetch(:rails_env) %>_passenger {start|stop|restart}" >&2
+exit 3
+;;
+esac
