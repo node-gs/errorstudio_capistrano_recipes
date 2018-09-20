@@ -12,7 +12,7 @@ namespace :rails do
   namespace :secrets do
     desc "Create Rails secrets file using random secret key base"
     task :create_config do
-      on roles(:app) do
+      on roles(:app, :db) do
         unless test("[ -f #{shared_path}/config/secrets.yml ]")
           set :secret_key_base, SecureRandom.hex(64)
           # get common secrets: we need to find a way to encrypt these really.
@@ -37,12 +37,12 @@ namespace :rails do
 
     desc "Create database.yml"
     task :create_config do
-      on roles(:app) do
+      on roles(:app, :db) do
         unless test("[ -f #{File.join(shared_path, "config", "database.yml")} ]")
           file = File.join(File.dirname(__FILE__), "templates", "rails", "database.yml.erb")
           buffer = ERB.new(File.read(file)).result(binding)
           upload! StringIO.new(buffer), "#{shared_path}/config/database.yml"
-          invoke "rails:db:create"
+          invoke! "rails:db:create"
         end
       end
     end
@@ -54,7 +54,7 @@ namespace :rails do
         db_sql = "CREATE DATABASE IF NOT EXISTS #{fetch(:db_name)};"
         execute "mysql --user=#{fetch(:server_admin_username)} --password=#{fetch(:server_admin_password)} --execute=\"#{db_sql}\""
       end
-      invoke "rails:db:grant"
+      invoke! "rails:db:grant"
     end
 
     desc "Grant db rights"
