@@ -16,7 +16,7 @@ namespace :rails do
         unless test("[ -f #{shared_path}/config/secrets.yml ]")
           set :secret_key_base, SecureRandom.hex(64)
           # get common secrets: we need to find a way to encrypt these really.
-          local_secrets = YAML.load_file(File.join(fetch(:repo_tree,""),"config/secrets.yml"))
+          local_secrets = YAML.load_file(File.join(fetch(:repo_tree,"."),"config/secrets.yml"))
           if local_secrets.has_key?("common")
             set :common_secrets, local_secrets["common"]
           end
