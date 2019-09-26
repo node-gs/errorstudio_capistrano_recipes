@@ -7,7 +7,7 @@ namespace :rvm1 do
       on roles(fetch(:rvm1_roles, :all)) do
         within release_path do
           version = fetch(:bundler_version).nil? ? "" : "-v #{fetch(:bundler_version)}"
-          execute :rvm, fetch(:rvm1_ruby_version), 'do', "gem install bundler #{version} --no-ri"
+          execute :rvm, fetch(:rvm1_ruby_version), 'do', "gem install bundler #{version} --no-document"
         end
       end
     end
