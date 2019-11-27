@@ -15,6 +15,10 @@ server {
 	server_name <%= fetch(:site_domains).join(" ") %>;
 	#listen   	80;
 
+	user www-data;
+	<%# passenger_default_user www-data;
+	passenger_default_group deployers; %>
+
 	location /nginx_status {
 		stub_status on;
 
